@@ -10,6 +10,8 @@ A place to store my guitar clips and write scripts that can process them in vari
 ## Random Project Idea
 Given a recording of a song, isolate the guitar. Then, estimate a filter that can take a recording of me playing the riff on the guitar and add the proper effect. I wonder if this could work to change the timbre of the guitar to other intruments.
 
+Specifically, I would apply an LMS filter. A short sample of a sustained note from the song could be treated as the desired output and my guitar could be the input. Maybe I average the filter weights across several sustained notes.
+
 ## Prerequisites
 Anaconda.
 
