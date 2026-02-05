@@ -3,16 +3,17 @@ from guitar_processing.utils.calculate_rms import calculate_rms
 from scipy.signal import find_peaks
 from scipy.ndimage import gaussian_filter1d
 import matplotlib.pyplot as plt
+import numpy as np
 
-def extract_sustained_tones(clip, rate, N, hop_length, plot=False):
+def extract_sustained_tones(input_audio, rate, N=1024, hop_length=128, plot=False):
     # Extract segments of length N containing sustained tones from an audio clip
 
     # Estimate pitch using pYIN and calculate RMS energy
-    estimated_f0, voiced_flag, voiced_probs = estimate_pitch(clip, rate)
-    rms = calculate_rms(clip)
+    estimated_f0, voiced_flag, voiced_probs = estimate_pitch(input_audio, rate)
+    rms = calculate_rms(input_audio)
 
     # Calculate local maxima in RMS energy
-    peaks, _ = find_peaks(rms, distance=hop_length//2)
+    peaks, _ = find_peaks(rms, distance=hop_length*2)
 
     # Calculate RMS energy relative to the most recent previous local maximum
     relative_rms = np.zeros_like(rms)
@@ -23,13 +24,13 @@ def extract_sustained_tones(clip, rate, N, hop_length, plot=False):
         relative_rms[i] = 20 * np.log10(rms[i] / current_peak) if rms[i] != 0 and current_peak > 0 else 0
 
     # Apply a low pass filter to smooth the relative RMS energy
-    smoothed_relative_rms = gaussian_filter1d(relative_rms, sigma=5)
+    smoothed_relative_rms = gaussian_filter1d(relative_rms, sigma=7)
 
     # Apply a low pass filter to smooth the frequency estimates
-    smoothed_estimated_f0 = gaussian_filter1d(estimated_f0, sigma=7)
+    smoothed_estimated_f0 = gaussian_filter1d(estimated_f0, sigma=8)
 
     # Identify sustained segments
-    min_relative_rms_slope = 13 # dB/s
+    min_relative_rms_slope = 10 # dB/s
     min_f0_diff = 0.5
     diligence = 5 # number of segments to check forward and back in time
     print(f"Checking for at least {np.round(100 * diligence * N / rate)/100} seconds of sustainability")
@@ -55,7 +56,7 @@ def extract_sustained_tones(clip, rate, N, hop_length, plot=False):
     for i in range(len(sustained_segments)):
         start_idx = sustained_segments[i] * hop_length
         end_idx = start_idx + N
-        sustained_notes.append(clip[start_idx:end_idx])
+        sustained_notes.append(input_audio[start_idx:end_idx])
     sustained_notes = np.array(sustained_notes)
 
     if plot:
