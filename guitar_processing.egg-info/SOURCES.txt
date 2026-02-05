@@ -1,0 +1,8 @@
+README.md
+setup.py
+guitar_processing/__init__.py
+guitar_processing.egg-info/PKG-INFO
+guitar_processing.egg-info/SOURCES.txt
+guitar_processing.egg-info/dependency_links.txt
+guitar_processing.egg-info/requires.txt
+guitar_processing.egg-info/top_level.txt

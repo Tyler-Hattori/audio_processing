@@ -16,6 +16,21 @@ Specifically, I would apply an LMS filter. A short sample of a sustained note fr
 Anaconda.
 
 ## Installation
-Create and activate a conda environment. Run setup.py. 
+Create and activate a conda environment. Run the following:
+
+```
+conda install python
+```
+```
+conda install setuptools
+```
+```
+pip install -e .
+```
+To verify the package was installed, run
+```
+pip list
+```
+and check if **guitar_processing** is listed.
 
 ## Usage
