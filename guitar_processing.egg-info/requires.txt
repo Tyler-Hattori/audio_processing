@@ -1,9 +1,0 @@
-numpy
-padasip
-matplotlib
-scipy
-plotly
-
-[dev]
-pytest
-flake8
