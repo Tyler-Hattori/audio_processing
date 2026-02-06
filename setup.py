@@ -36,6 +36,8 @@ INSTALL_REQUIRES = [
     "matplotlib",
     "scipy",
     "plotly",
+    "IPython",
+    "sys"
     # "requests>=2.25.1",
 ]
 EXTRAS_REQUIRE = {

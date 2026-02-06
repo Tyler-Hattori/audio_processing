@@ -4,6 +4,9 @@ from scipy.signal import find_peaks
 from scipy.ndimage import gaussian_filter1d
 import matplotlib.pyplot as plt
 import numpy as np
+import sys
+import IPython.display as ipd
+from scipy.io.wavfile import read
 
 def extract_sustained_tones(input_audio, rate, N=1024, hop_length=128, plot=False):
     # Extract segments of length N containing sustained tones from an audio clip
@@ -84,3 +87,41 @@ def extract_sustained_tones(input_audio, rate, N=1024, hop_length=128, plot=Fals
         plt.show()
 
     return sustained_notes # shape: (num_sustained_notes, N)
+
+if __name__ == "__main__":
+    # Process audio clip in 1024 sample segments by default
+    N = 1024
+    hop_length = 128
+    plot = False
+    if len(sys.argv) == 1:
+        raise Exception("Input path to audio file. You can also specify window_length, hop_length, show_plots")
+    if len(sys.argv) > 1:
+        audio_path = sys.argv[1]
+    if len(sys.argv) > 2:
+        N = sys.argv[2]
+    if len(sys.argv) > 3:
+        hop_length = sys.argv[3]
+    if len(sys.argv) > 4:
+        plot = sys.argv[4]
+
+    # Load audio clip
+    rate, audio = read(audio_path)
+
+    # Convert to mono if stereo
+    if audio.ndim > 1:
+        audio = audio.mean(axis=1).astype(audio.dtype)
+
+    # Convert to floating point and normalize
+    audio = audio.astype(np.float32) / np.max(np.abs(audio))
+
+    # Extract sustained notes
+    sustained_notes = extract_sustained_tones(audio, rate, N, hop_length, plot)
+
+    # Flatten the sustained segments into a single audio clip, avoiding overlap
+    # This is a sanity check to listen to the extracted segments
+    flattened_sustained_notes = []
+    for i in range(0, sustained_notes.shape[0], N // hop_length):
+        flattened_sustained_notes.extend(sustained_notes[i])
+    flattened_sustained_notes = np.array(flattened_sustained_notes)
+    ipd.display(ipd.Audio(flattened_sustained_notes, rate=rate))
+    

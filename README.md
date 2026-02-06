@@ -1,7 +1,7 @@
-# Audio Processing Workspace
-A place to store my guitar clips and write scripts that can process them in various ways. First I want to grasp basic ASP concepts, then workshop some ideas I have that would be useful for a musician.
+# Audio Processing Sandbox
+A place to write scripts that process my guitar recordings in various ways. Initially, I just wanted to grasp basic ASP concepts, but I'm workshoping some ideas that I think would be useful for a musician.
 
-## Goals
+## Capabilities
 - Add effects to a given recording (reverb, delay, echo, chorus, flanger, EQ, filtering, compression, gating, limiting, distortion, remove note onsets)
 - Generate a stereo recording from any number of mono audio clips with desired panning angles and relative volumes
 - Noise cancellation (performance comparison between adaptive LMS filter, Weiner filter, and a custom DNN)
@@ -34,3 +34,4 @@ pip list
 and check if **guitar_processing** is listed.
 
 ## Usage
+Run any of the scripts in /guitar_processing/scripts or read through and run a workbook
