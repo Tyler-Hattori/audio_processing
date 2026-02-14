@@ -6,6 +6,7 @@ A place to store my Jupyter notebooks that process my guitar recordings in vario
 - Adaptive noise cancellation using NLMS filtering, mimicking filtering done in modern headphones without secondary path considerations.
 - Sustained note extraction from a given audio file. The criteria for classifying a note as sustained includes the slope and magnitude of RMS energy over time and the stability of the estimated pitch by YIN.
 - Timbre replication given a reference recording, the same recording with some change in timbre, and a separate recording on which the filter is applied. Implemented with mean FFT ratios of sustained notes.
+- Bass, mid, and treble digital EQ filtering based on nodal analysis of circuits found in Fender amplifiers.
 
 ## In Progress, Not Shown
 - Source separation using Non-negative Matrix Factorization with constraints on sparsity and harmonicity
